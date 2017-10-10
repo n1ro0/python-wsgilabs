@@ -31,12 +31,16 @@ def new_create():
             if entities.Link.objects(shortcut=shortcut).count() == 0:
                 duplicated = False
         entities.Link(shortcut=shortcut, link=link).save()
+    else:
+        shortcut = entities.Link.objects(link=link).first().shortcut
     page = render_template('create.html', hash="localhost:5000/{}".format(shortcut))
     resp = Response(page)
     resp.headers['Content-Type'] = 'text/html'
     resp.headers['Content-Length'] = str(len(page))
     resp.status = '200 OK'
     return resp
+
+
 
 
 @app.route('/')

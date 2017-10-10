@@ -58,6 +58,8 @@ def new_create(environ, start_response):
             if entities.Link.objects(shortcut=shortcut).count() == 0:
                 duplicated = False
         entities.Link(shortcut=shortcut, link=link).save()
+    else:
+        shortcut = entities.Link.objects(link=link).first().shortcut
     response_body = create_html(escape("localhost:8080/{}".format(shortcut))).encode()
     status = '200 OK'
     response_headers = [
